@@ -14,19 +14,36 @@ if(localStorage.getItem('products')!=null){
 
 display(productsContainer);
 
-function addProduct(){
+function validateForm(){
+    let nameRegex = /^[A-Z]{1}[A-Za-z0-9]{2,11}/;
+    let priceRegex = /^[1-9]{1,6}$/;
+    let categoryRegex = /^[A-Z]{1}[A-Za-z]{2,11}/;
 
-    let product ={
-        name:productNameInput.value,
-        price:productPriceInput.value,
-        category:productCategoryInput.value,
-        desc:productDescInput.value,
+    if(nameRegex.test(productNameInput.value) && priceRegex.test(productPriceInput.value) && categoryRegex.test(productCategoryInput.value)){
+        return true;
     }
 
-    productsContainer.push(product);
-    localStorage.setItem('products',JSON.stringify(productsContainer));
-    display(productsContainer);
-    clearForm();
+    return false;
+}
+function addProduct(){
+
+    if(validateForm()){
+        let product ={
+            name:productNameInput.value,
+            price:productPriceInput.value,
+            category:productCategoryInput.value,
+            desc:productDescInput.value,
+        }
+    
+        productsContainer.push(product);
+        localStorage.setItem('products',JSON.stringify(productsContainer));
+        display(productsContainer);
+        clearForm();
+    }
+    else{
+        alert('wrong inputs');
+    }
+    
 }
 
 
